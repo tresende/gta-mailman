@@ -41,8 +41,9 @@ namespace EX1
             Vertices.SelectMany(x => x.Edges).ToList().ForEach(x => x.Vertice = GetByName(x.Name));
         }
 
-        public void Run(string start, string finish)
+        public string Run(string start, string finish)
         {
+            var path = string.Empty;
             var distances = new Dictionary<string, int>();
             var nodes = this.Vertices.ToList();
 
@@ -58,11 +59,11 @@ namespace EX1
             {
                 nodes.Sort((x, y) => (distances[x.Name] + NextLevelSearch(x.Name, finish)) - (distances[y.Name] + NextLevelSearch(y.Name, finish)));
                 var smallest = nodes[0];
-                Console.Write(smallest.Name + " ");
+                path += smallest.Name + " ";
                 nodes.Remove(smallest);
                 if (smallest.Name == finish)
                 {
-                    return;
+                    return path;
                 }
                 if (distances[smallest.Name] != int.MaxValue)
                 {
@@ -76,6 +77,7 @@ namespace EX1
                     }
                 }
             }
+            return path;
         }
 
         #endregion
